@@ -12,6 +12,10 @@ private1_subnet_cidr="10.0.3.0/24"
 
 private2_subnet_cidr="10.0.4.0/24"
 
+private3_subnet_cidr="10.0.5.0/24"
+
+private4_subnet_cidr="10.0.6.0/24"
+
 az1="us-east-1a"
 
 az2="us-east-1b"

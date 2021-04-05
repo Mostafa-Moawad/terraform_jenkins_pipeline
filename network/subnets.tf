@@ -50,6 +50,34 @@ resource "aws_subnet" "private2" {
 
 
 
+
+resource "aws_subnet" "private3" {
+  vpc_id     = aws_vpc.iti.id
+  cidr_block = var.private3_subnet_cidr
+
+  availability_zone = var.az1
+  tags = {
+    Name = var.name
+    type = "private3"
+  }
+}
+
+resource "aws_subnet" "private4" {
+  vpc_id     = aws_vpc.iti.id
+  cidr_block = var.private4_subnet_cidr
+
+  availability_zone = var.az2
+
+
+  tags = {
+    Name = var.name
+    type = "private4"
+  }
+}
+
+
+
+
 # resource "aws_subnet" "private1" {
 #   vpc_id     = aws_vpc.iti.id
 #   cidr_block = "10.0.3.0/24"

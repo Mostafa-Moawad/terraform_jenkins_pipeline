@@ -37,6 +37,7 @@ resource "aws_route" "public" {
 #   route_table_id         = aws_route_table.private.id
 #   destination_cidr_block = "0.0.0.0/0"
 #   natnat_gateway_id      = aws_nat_gateway.iti.id
+
 # }
 
 resource "aws_route_table_association" "public1" {
@@ -47,7 +48,7 @@ resource "aws_route_table_association" "public1" {
 
 resource "aws_route_table_association" "public2" {
   subnet_id      = aws_subnet.public2.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = aws_route_table.public.id
 }
 
 
@@ -59,5 +60,19 @@ resource "aws_route_table_association" "private1" {
 
 resource "aws_route_table_association" "private2" {
   subnet_id      = aws_subnet.private2.id
-  route_table_id = aws_route_table.public.id
+  route_table_id = aws_route_table.private.id
+}
+
+
+
+
+resource "aws_route_table_association" "private3" {
+  subnet_id      = aws_subnet.private3.id
+  route_table_id = aws_route_table.private.id
+}
+
+
+resource "aws_route_table_association" "private4" {
+  subnet_id      = aws_subnet.private4.id
+  route_table_id = aws_route_table.private.id
 }

@@ -7,9 +7,11 @@ module "iti" {
     public2_subnet_cidr = var.public2_subnet_cidr
     private1_subnet_cidr = var.private1_subnet_cidr
     private2_subnet_cidr = var.private2_subnet_cidr
+    private3_subnet_cidr = var.private3_subnet_cidr
+    private4_subnet_cidr = var.private4_subnet_cidr
 
     az1=var.az1
-    az2=var.az1
+    az2=var.az2
 
 
 }

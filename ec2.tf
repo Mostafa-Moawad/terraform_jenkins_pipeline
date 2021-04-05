@@ -26,7 +26,7 @@ resource "aws_instance" "privateServerInstance" {
   ami                    = var.ec2_ami
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.itiSshPrivate.id]
-  subnet_id              = module.iti.private1_id
+  subnet_id              = module.iti.public2_id
   key_name               = aws_key_pair.pub.key_name
   tags = {
     Name = "privateServerInstance"

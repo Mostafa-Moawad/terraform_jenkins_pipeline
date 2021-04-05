@@ -31,6 +31,17 @@ variable "private2_subnet_cidr" {
 }
 
 
+variable "private3_subnet_cidr" {
+  type = "string"
+}
+
+
+
+variable "private4_subnet_cidr" {
+  type = "string"
+}
+
+
 
 variable "az1" {
   type = "string"
