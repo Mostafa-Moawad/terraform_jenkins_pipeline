@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    stages {
+        
+        stage('repo') {
+            steps {
+                git branch: 'master',  url: "https://github.com/Mostafa-Moawad/terraform_jenkins_pipeline.git"
+            }
+            
+        }
+        
+         
+        stage('terraform Init') {
+            steps {
+                sh 'terraform init -input=false'
+            }
+            
+        }
+        
+        
+        
+        // stage('Creating prod workspace') {
+        //     steps {
+        //         sh 'terraform workspace new prod '
+        //     }
+            
+        // }
+        
+        // stage('Creating dev workspace') {
+        //     steps {
+        //         sh 'terraform workspace new dev '
+        //     }
+            
+        // }
+        
+        stage('selecting dev workspace') {
+            steps {
+                sh 'terraform workspace select default '
+            }
+            
+        }
+        
+        stage('planning using dev variables') {
+            steps {
+                sh 'terraform plan --var-file=dev.tfvars -input=false'
+            }
+            
+        }
+        
+        stage('applying using dev variables') {
+            steps {
+                sh 'terraform apply --var-file=dev.tfvars -auto-approve'
+            }
+            
+        }
+    }
+}
