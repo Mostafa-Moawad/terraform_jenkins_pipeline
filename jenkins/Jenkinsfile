@@ -1,58 +1,54 @@
+
 pipeline {
-    agent any
+
+    
+    agent {label 'aws-slave'}
 
     stages {
-        
-        stage('repo') {
+        stage('preparation') {
             steps {
-                git branch: 'master',  url: "https://github.com/Mostafa-Moawad/terraform_jenkins_pipeline.git"
+                git branch: 'master',  url: 'https://github.com/Mostafa-Moawad/nodejs_connect_rds_redis.git'
+            }
+            
+        }
+            
+        stage('build') {
+            steps {
+                // sh'docker stop $(docker ps -aq)'
+                // sh 'docker rm $(docker ps -aq)'
+                // sh'docker rmi $(docker images -q)'
+                sh 'docker build -f dockerfile . -t mostafa22/jenkins_iti:v1.0'
             }
             
         }
         
-         
-        stage('terraform Init') {
+        stage('artifact') {
             steps {
-                sh 'terraform init -input=false'
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user_name')]) {
+                    sh 'docker login -u ${user_name} -p ${pass} '
+                    sh 'docker push mostafa22/jenkins_iti:v1.0'
+                    
+
+                }
+            }
+            
+            // post {
+            // success{
+            //     slackSend(color: '#66ffff', message:"hello From Jenkins")
+            // }
+        }
+        
+        stage('deploy') {
+            steps {
+                sh 'sudo docker run -d -p 3000:3000 -e RDS_HOSTNAME=terraform-20210406151719176500000001.cvzwgx7wcknv.us-east-2.rds.amazonaws.com -e RDS_USERNAME=admin -e RDS_PASSWORD=admin1234 -e RDS_PORT=3306 -e REDIS_HOSTNAME=cluster-rerdis.iqkgpv.0001.use2.cache.amazonaws.com -e REDIS_PORT=6379 -t mostafa22/jenkins_iti:v1.0'
+
             }
             
         }
         
+
         
         
-        // stage('Creating prod workspace') {
-        //     steps {
-        //         sh 'terraform workspace new prod '
-        //     }
-            
-        // }
-        
-        // stage('Creating dev workspace') {
-        //     steps {
-        //         sh 'terraform workspace new dev '
-        //     }
-            
-        // }
-        
-        stage('selecting dev workspace') {
-            steps {
-                sh 'terraform workspace select default '
-            }
-            
-        }
-        
-        stage('planning using dev variables') {
-            steps {
-                sh 'terraform plan --var-file=dev.tfvars -input=false'
-            }
-            
-        }
-        
-        stage('applying using dev variables') {
-            steps {
-                sh 'terraform apply --var-file=dev.tfvars -auto-approve'
-            }
-            
-        }
+       
     }
 }

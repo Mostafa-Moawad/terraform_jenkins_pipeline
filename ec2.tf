@@ -31,5 +31,16 @@ resource "aws_instance" "privateServerInstance" {
   tags = {
     Name = "privateServerInstance"
   }
+
+  provisioner "local-exec" {
+    command = "echo ${self.public_ip} > ./ansible_aws_slave/inventory"
+  }
+  # provisioner "local-exec" {
+  #   command = "sleep 100"
+  # }
+
+  # provisioner "local-exec" {
+  #   command = " ansible-playbook -i ./ansible_aws_slave/inventory ./ansible_aws_slave/slave.yml"
+  # }
 }
 

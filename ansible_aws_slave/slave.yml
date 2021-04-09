@@ -4,7 +4,7 @@
   tasks:
     - name: update apt
       apt: 
-        update_cache: 'True'
+        update_cache: yes
 
     - name: create dir
       file:
